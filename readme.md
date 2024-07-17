@@ -1,5 +1,3 @@
-Certainly! Below is the provided text converted into Markdown format:
-
 ```markdown
 1. **Create a YouTube Channel**
    - Head over to YouTube and create a new channel if you haven't already.
