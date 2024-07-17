@@ -7,6 +7,7 @@ from google_auth_oauthlib.flow import Flow,InstalledAppFlow  # Google OAuth libr
 from google.oauth2 import service_account
 from google.cloud import storage as dns
 import json
+from termcolor import colored
 
 # Youtube_Video_Id is the id which youtube assigns to our uploaded video
 # Id_Number_Video is the our id of video which we use for naming uniquely
@@ -82,7 +83,8 @@ def update_description(id_num):
             print('Fetching New Tokens...')
             flow = InstalledAppFlow.from_client_secrets_file(
                 config.yt_key_path,
-                scopes = ['https://www.googleapis.com/auth/youtube.upload']
+                scopes = ['https://www.googleapis.com/auth/youtube','https://www.googleapis.com/auth/youtubepartner','https://www.googleapis.com/auth/youtube.force-ssl']
+
             )
             flow.run_local_server(port=8081, prompt='consent', authorization_prompt_message='')
             credentials = flow.credentials
@@ -92,32 +94,40 @@ def update_description(id_num):
                 pickle.dump(credentials, f)
 
     youtube = build("youtube", "v3", credentials=credentials)
-    video_id=get_youtube_video_id(id_num)
+    youtube_video_id=get_youtube_video_id(id_num)
 
     new_description=input("enter the new video description".format())
 
+    # Get the current snippet of the video
+    video_response = youtube.videos().list(
+        part='snippet',
+        id=youtube_video_id
+    ).execute()
+
+    video_snippet = video_response['items'][0]['snippet']
+    video_title = video_snippet['title']
+
     # Define request body for video update
     request_body = {
-        'id': video_id,
+        'id': youtube_video_id,
         'snippet': {
+            'title': video_title,
             'description': new_description,
+            'categoryId': video_snippet.get('categoryId', '22'),  # Default to '22' (People & Blogs) if categoryId is not present
+            'tags': video_snippet.get('tags', [])
         }
     }
-
-    print("")
-    print(video_id)
-    print(id_num)
-    print("")
-
 
     response_update = youtube.videos().update(
         part='snippet',
         body=request_body
     ).execute()
 
-    print(response_update)
 
-    print("Description updated successfully!")
+    print(colored("         ****** Description updated successfully! ******","green", attrs=['bold']))
+    print("check the video description on the above link")
+    print("")
+
     return 0
 
     # return response_update
