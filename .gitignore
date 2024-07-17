@@ -1,4 +1,5 @@
 venv/
+debug.log
 feature.md
 config.py
 token.pickle

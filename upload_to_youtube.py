@@ -68,8 +68,10 @@ def check_id_uploaded(id_num):
 # Loop for user interaction
 while(True):
 
-    logging.debug('Starting main loop iteration')
 
+    logging.debug('Starting main loop iteration')
+    print("Welcome to Youtube video uploading script :")
+    print("Select a option")
     print("1. Upload video from PC")
     logging.debug('Displaying menu option: Upload video from PC')
 
