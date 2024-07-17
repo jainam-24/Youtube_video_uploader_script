@@ -349,7 +349,6 @@ while(True):
             else:
                 update_description(i)
         
-        break
         
     elif(c==5):
         # Exit option
