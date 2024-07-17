@@ -1,0 +1,12 @@
+venv/
+feature.md
+config.py
+token.pickle
+dummy.py
+
+.ipynb_checkpoints/
+
+client_secret.json
+my_client_secret.json
+
+__pycache__/
