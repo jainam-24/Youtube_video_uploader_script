@@ -96,7 +96,7 @@ def update_description(id_num):
     youtube = build("youtube", "v3", credentials=credentials)
     youtube_video_id=get_youtube_video_id(id_num)
 
-    new_description=input("enter the new video description".format())
+    new_description=input("enter the new video description: \n")
 
     # Get the current snippet of the video
     video_response = youtube.videos().list(

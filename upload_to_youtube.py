@@ -57,7 +57,7 @@ def check_id_uploaded(id_num):
             id = json_data['Upload IDs']['Youtube']
             video_link = f'https://www.youtube.com/watch?v={id}'
             print("")
-            print(colored("Video already uploaded before! Video link: " + video_link, "g4reen", attrs=['bold']))
+            print(colored("Video already uploaded before! Video link: " + video_link, "green", attrs=['bold']))
             print("")
             return True
         else:
