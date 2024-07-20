@@ -12,6 +12,11 @@ from add_link import add_link_to_metadata
 from termcolor import colored
 import logging
 from update_description import update_description
+import time
+import sys
+from datetime import datetime
+from datetime import date
+from add_youtube_video_details_to_metadata import add_youtube_video_details_to_metadata
 
 # Configure the logging settings
 logging.basicConfig(filename='debug.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -116,23 +121,31 @@ while(True):
         logging.debug(f"User input: {description}")
 
 
-        logging.debug("Publish At:")
-        print("Enter Date at which video should be published on Youtube: ")
+        future_publishing=input("Do you want to publish video in future? y:n => ")
+        
+        if future_publishing=="Y" or future_publishing=="y":
+            print("Enter date on which video should be uploaded")
+            print("Enter date in YYYY-MM-DD format:")
+            logging.debug("Prompting user for date input")
+            date_input = input()
+            logging.debug(f"User input (date): {date_input}")
+            yyyy, mm, dd = date_input.split('-')
 
-        print("Enter date in YYYY-MM-DD format:")
-        logging.debug("Prompting user for date input")
-        date_input = input()
-        logging.debug(f"User input (date): {date_input}")
-        yyyy, mm, dd = date_input.split('-')
+            print("Enter time on which video should be uploaded in format (HH-MM-SS)")
+            # print("Enter time in HH:MM:SS format:")
+            logging.debug("Prompting user for time input")
+            time_input = input()
+            logging.debug(f"User input (time): {time_input}")
 
-
-        print("Enter time in HH-MM-SS format: ")
-        logging.debug("Prompting user for time input")
-        time_input = input()
-        logging.debug(f"User input (time): {time_input}")
-
-        # Split the time input into hour, minute, and second
-        HH, MM, SS = time_input.split('-')
+            # Split the time input into hour, minute, and second
+            HH, MM, SS = time_input.split('-')
+        
+        else:
+            now = datetime.now()
+            current_time = str(now.strftime("%H:%M:%S"))
+            current_date=str(date.today())
+            yyyy,mm,dd=current_date.split('-')
+            HH,MM,SS=current_time.split(':')
                 
         # Upload the video using the provided information
         
@@ -185,20 +198,32 @@ while(True):
         print("IDs found:" + str(len(ids)))
         print(ids)
 
-        print("enter the date and time for publishing video to youtube: ")
-        print("Enter date in YYYY-MM-DD format:")
-        logging.debug("Prompting user for date input")
-        date_input = input()
-        logging.debug(f"User input (date): {date_input}")
-        yyyy, mm, dd = date_input.split('-')
+        future_publishing=input("Do you want to publish video in future? y:n => ")
         
-        print("Enter time in HH-MM-SS format:")
-        logging.debug("Prompting user for time input")
-        time_input = input()
-        logging.debug(f"User input (time): {time_input}")
+        if future_publishing=="Y" or future_publishing=="y":
+            print("Enter date on which video should be uploaded")
+            print("Enter date in YYYY-MM-DD format:")
+            logging.debug("Prompting user for date input")
+            date_input = input()
+            logging.debug(f"User input (date): {date_input}")
+            yyyy, mm, dd = date_input.split('-')
 
-        # Split the time input into hour, minute, and second
-        HH, MM, SS = time_input.split('-')
+            print("Enter time on which video should be uploaded in format (HH-MM-SS)")
+            # print("Enter time in HH:MM:SS format:")
+            logging.debug("Prompting user for time input")
+            time_input = input()
+            logging.debug(f"User input (time): {time_input}")
+
+            # Split the time input into hour, minute, and second
+            HH, MM, SS = time_input.split('-')
+        
+        else:
+            now = datetime.now()
+            current_time = str(now.strftime("%H:%M:%S"))
+            current_date=str(date.today())
+            yyyy,mm,dd=current_date.split('-')
+            HH,MM,SS=current_time.split(':')
+
                 
 
         # Looping through each ID
@@ -265,21 +290,37 @@ while(True):
         print(ids)
         print("")
 
-        print("Enter date on which video should be uploaded")
-        print("Enter date in YYYY-MM-DD format:")
-        logging.debug("Prompting user for date input")
-        date_input = input()
-        logging.debug(f"User input (date): {date_input}")
-        yyyy, mm, dd = date_input.split('-')
+        future_publishing=input("Do you want to publish video in future? y:n => ")
+        
+        if future_publishing=="Y" or future_publishing=="y":
+            print("Enter date on which video should be uploaded")
+            print("Enter date in YYYY-MM-DD format:")
+            logging.debug("Prompting user for date input")
+            date_input = input()
+            logging.debug(f"User input (date): {date_input}")
+            yyyy, mm, dd = date_input.split('-')
 
-        print("Enter time on which video should be uploaded in format (HH-MM-SS)")
-        # print("Enter time in HH:MM:SS format:")
-        logging.debug("Prompting user for time input")
-        time_input = input()
-        logging.debug(f"User input (time): {time_input}")
+            print("Enter time on which video should be uploaded in format (HH-MM-SS)")
+            # print("Enter time in HH:MM:SS format:")
+            logging.debug("Prompting user for time input")
+            time_input = input()
+            logging.debug(f"User input (time): {time_input}")
 
-        # Split the time input into hour, minute, and second
-        HH, MM, SS = time_input.split('-')
+            # Split the time input into hour, minute, and second
+            HH, MM, SS = time_input.split('-')
+        
+        else:
+            now = datetime.now()
+            current_time = str(now.strftime("%H:%M:%S"))
+            current_date=str(date.today())
+            yyyy,mm,dd=current_date.split('-')
+            HH,MM,SS=current_time.split(':')
+
+
+
+        print("")
+        print("loading...")
+        print("")
 
         # Looping through each ID
         for i in ids:
@@ -301,6 +342,9 @@ while(True):
                 # Add Link to Metadata
                 add_link_to_metadata(i,video_id)
                 logging.debug(f'Link added to metadata for ID: {i}')
+
+                # add_youtube_video_details_to_metadata(i,title,description,yyyy,mm,dd,HH,MM,SS)
+                
                 # Remove temp files
                 shutil.rmtree(os.path.dirname(os.path.realpath(__file__)) +  "/" + i)
                 logging.debug(f'Removed temp directory for ID: {i}')
@@ -345,11 +389,8 @@ while(True):
             if not video_exist:
                 print("Video does not exist for id {} on youtube, upload the video first".format(i))
                 print("")
-            
             else:
-                update_description(i)
-        
-        
+                update_description(i)    
     elif(c==5):
         # Exit option
         logging.debug('User selected option 5: Exit')

@@ -1,4 +1,5 @@
 venv/
+dummy.json
 debug.log
 feature.md
 config.py
