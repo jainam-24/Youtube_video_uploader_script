@@ -1,4 +1,5 @@
 import Upload
+import logging
 import pandas as pd
 from google.oauth2 import service_account
 from google.cloud import storage as dns
@@ -10,7 +11,6 @@ import config
 import get_title_and_description
 from add_link import add_link_to_metadata
 from termcolor import colored
-import logging
 from update_description import update_description
 import time
 import sys
@@ -19,18 +19,20 @@ from datetime import date
 from add_youtube_video_details_to_metadata import add_youtube_video_details_to_metadata
 
 # Configure the logging settings
-logging.basicConfig(filename='debug.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename="debug.log", 
+                    level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def check_id_uploaded(id_num):
     """
     Checks if a video with the given ID has already been uploaded.
-
+    
     Args:
         id_num (str): The ID number.
 
     Returns:
         bool: True if video is already uploaded, False otherwise.
     """
+    
     # Get GCP key from configuration
     key = config.gcp_key
 
@@ -54,7 +56,7 @@ def check_id_uploaded(id_num):
 
     # Load JSON data
     json_data = json.loads(json_data)
-
+    
     # Check if "Upload IDs" key exists
     if "Upload IDs" in json_data.keys():
         # Check if "Youtube" key exists in "Upload IDs"
@@ -72,7 +74,6 @@ def check_id_uploaded(id_num):
 
 # Loop for user interaction
 while(True):
-
 
     logging.debug('Starting main loop iteration')
     print("Welcome to Youtube video uploading script :")
@@ -224,8 +225,8 @@ while(True):
             yyyy,mm,dd=current_date.split('-')
             HH,MM,SS=current_time.split(':')
 
-                
-
+        print("Loading... Please wait...")
+        
         # Looping through each ID
         for i in ids:
             logging.debug(f'Processing ID: {i}')
@@ -235,7 +236,7 @@ while(True):
             if choice==False:
             # Get Title and Description
                 # title, description = get_title_and_description.get(i)
-                title, description = "First","sample"
+                title, description = "First",i
                 # Get Videos
                 download_json_files(i)
                 video_path = os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), i),config.video_with_music_filename)
@@ -289,9 +290,8 @@ while(True):
         print("IDs found:" + str(len(ids)))
         print(ids)
         print("")
-
-        future_publishing=input("Do you want to publish video in future? y:n => ")
         
+        future_publishing=input("Do you want to publish video in future? y:n => ")
         if future_publishing=="Y" or future_publishing=="y":
             print("Enter date on which video should be uploaded")
             print("Enter date in YYYY-MM-DD format:")
@@ -317,11 +317,6 @@ while(True):
             HH,MM,SS=current_time.split(':')
 
 
-
-        print("")
-        print("loading...")
-        print("")
-
         # Looping through each ID
         for i in ids:
              
@@ -331,7 +326,7 @@ while(True):
             if choice==False:
                 # Get Title and Description
                 # title, description = get_title_and_description.get(i)
-                title, description = "video for test","sample description"
+                title, description = "video for test",i
                 # Get Videos
                 download_json_files(i)
                 video_path = os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), i),config.video_with_music_filename)

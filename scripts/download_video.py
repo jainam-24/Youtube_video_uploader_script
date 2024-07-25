@@ -388,6 +388,39 @@ def extract_images(local_path, mappingx, num_json):
             
     return image_dictx
 
+# def extract_images(local_path, mappingx, num_json):
+#     logging.debug(f'Extracting Images')
+
+#     image_name = 1
+#     image_dictx = {}
+
+#     for json_file_number in range(1, 10):
+#         path = os.path.join(local_path, str(json_file_number) + ".json")
+
+#         try:
+#             f = open(path)
+#             images_list = json.load(f)
+            
+#             for image_b64 in images_list:
+#                 image_bgr = cv2.imdecode(
+#                     np.frombuffer(base64.b64decode(image_b64), dtype=np.uint8), flags=1)
+#                 image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
+                
+#                 # Create a black background
+#                 black_background = np.zeros_like(image_rgb)
+                
+#                 # Place the image onto the black background
+#                 x_offset = (black_background.shape[1] - image_rgb.shape[1]) // 2
+#                 y_offset = (black_background.shape[0] - image_rgb.shape[0]) // 2
+#                 black_background[y_offset:y_offset + image_rgb.shape[0], x_offset:x_offset + image_rgb.shape[1]] = image_rgb
+                
+#                 image_dictx[mappingx[image_name]] = black_background
+#                 image_name += 1
+                
+#         except:
+#             print("")
+            
+#     return image_dictx
 
 def mp4Writer(id_num, num_json, image_dict):
 
@@ -433,6 +466,23 @@ def mp4Writer(id_num, num_json, image_dict):
     # Add music to the video
     add_music_to_video(os.path.join(os.path.join(path, id_num), config.video_filename), id_num)
 
+# def mp4Writer(id_num, num_json, image_dict):
+#     logging.debug(f'Writing MP4 for id_num: {id_num}')
+
+#     height, width, layers = image_dict[1].shape
+#     size = (width, height)
+    
+#     path = os.path.dirname(os.path.realpath(__file__))
+    
+#     image_list = [image_dict[i] for i in range(1, pow(2, num_json) + 1)]
+    
+#     out = ImageSequenceClip(image_list, fps=config.fps)
+    
+#     out.write_videofile(os.path.join(os.path.join(path, id_num), config.video_filename), codec='libx264')
+    
+#     upload_to_gcp(os.path.join(os.path.join(path, id_num), config.video_filename), id_num)
+    
+#     add_music_to_video(os.path.join(os.path.join(path, id_num), config.video_filename), id_num)
 
 def add_music_to_video(video_path, id_num):
 

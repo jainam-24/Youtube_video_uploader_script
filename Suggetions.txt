@@ -1,0 +1,9 @@
+Suggetions:
+1) we can add some more good music in the videos
+2) breaking down the things:
+-Resizing or padding the videos for making it mobile fit/youtube fit/ Instagram fit(portrait mode)
+-Currently video is making only one rotation, so we can increase rotation and vary speed.
+-music should be added at the end of video completion else audio will also have varying speed.
+
+3) Do we prefer changing the background of the video?
+
