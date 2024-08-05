@@ -25,10 +25,8 @@ logging.basicConfig(filename="debug.log",
 def check_id_uploaded(id_num):
     """
     Checks if a video with the given ID has already been uploaded.
-    
     Args:
         id_num (str): The ID number.
-
     Returns:
         bool: True if video is already uploaded, False otherwise.
     """
@@ -291,6 +289,7 @@ while(True):
         print(ids)
         print("")
         
+        
         future_publishing=input("Do you want to publish video in future? y:n => ")
         if future_publishing=="Y" or future_publishing=="y":
             print("Enter date on which video should be uploaded")
@@ -316,7 +315,7 @@ while(True):
             yyyy,mm,dd=current_date.split('-')
             HH,MM,SS=current_time.split(':')
 
-
+        print("Loading Please Wait...")
         # Looping through each ID
         for i in ids:
              
@@ -334,9 +333,10 @@ while(True):
                 # Upload Video to Youtube
                 video_id = Upload.Upload().upload(yyyy,mm,dd,HH,MM,SS,title,description,video_path,thumbnail_path)
                 logging.debug(f'Video uploaded for ID: {i}')
+                
                 # Add Link to Metadata
-                add_link_to_metadata(i,video_id)
-                logging.debug(f'Link added to metadata for ID: {i}')
+                # add_link_to_metadata(i,video_id)
+                # logging.debug(f'Link added to metadata for ID: {i}')
 
                 # add_youtube_video_details_to_metadata(i,title,description,yyyy,mm,dd,HH,MM,SS)
                 

@@ -72,11 +72,13 @@ class Upload():
 
                 flow = InstalledAppFlow.from_client_secrets_file(
                     config.yt_key_path,
-                    scopes = ['https://www.googleapis.com/auth/youtube.upload','https://www.googleapis.com/auth/youtubepartner',
-                              'https://www.googleapis.com/auth/youtube',
-                              'https://www.googleapis.com/auth/youtube.force-ssl']
+                    scopes = ['https://www.googleapis.com/auth/youtube.upload','https://www.googleapis.com/auth/youtubepartner']
                 )
-
+                
+                #'https://www.googleapis.com/auth/youtubepartner',
+                #'https://www.googleapis.com/auth/youtube',
+                #'https://www.googleapis.com/auth/youtube.force-ssl'
+                
                 flow.run_local_server(port=8081, prompt='consent',
                                       authorization_prompt_message='')
                 credentials = flow.credentials
